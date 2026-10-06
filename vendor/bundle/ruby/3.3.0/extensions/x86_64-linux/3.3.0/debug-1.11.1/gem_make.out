@@ -1,0 +1,19 @@
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/debug-1.11.1/ext/debug
+/home/pawel4449/.rbenv/versions/3.3.5/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-vvm4fb sitelibdir\=./.gem.20261002-9608-vvm4fb clean
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-vvm4fb sitelibdir\=./.gem.20261002-9608-vvm4fb
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-vvm4fb sitelibdir\=./.gem.20261002-9608-vvm4fb install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20261002-9608-vvm4fb/debug
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-vvm4fb sitelibdir\=./.gem.20261002-9608-vvm4fb clean

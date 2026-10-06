@@ -1,0 +1,30 @@
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/bcrypt_pbkdf-1.1.2/ext/mri
+/home/pawel4449/.rbenv/versions/3.3.5/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/bcrypt_pbkdf-1.1.2/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-5v2su sitelibdir\=./.gem.20261002-9608-5v2su clean
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/bcrypt_pbkdf-1.1.2/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-5v2su sitelibdir\=./.gem.20261002-9608-5v2su
+compiling bcrypt_pbkdf.c
+compiling bcrypt_pbkdf_ext.c
+bcrypt_pbkdf_ext.c: In function ‘Init_bcrypt_pbkdf_ext’:
+bcrypt_pbkdf_ext.c:38:6: warning: old-style function definition [-Wold-style-definition]
+   38 | void Init_bcrypt_pbkdf_ext(){
+      |      ^~~~~~~~~~~~~~~~~~~~~
+bcrypt_pbkdf_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling blowfish.c
+compiling explicit_bzero.c
+compiling hash_sha512.c
+linking shared-object bcrypt_pbkdf_ext.so
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/bcrypt_pbkdf-1.1.2/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-5v2su sitelibdir\=./.gem.20261002-9608-5v2su install
+/usr/bin/install -c -m 0755 bcrypt_pbkdf_ext.so ./.gem.20261002-9608-5v2su
+
+current directory: /home/pawel4449/repos/18/messaging-api/vendor/bundle/ruby/3.3.0/gems/bcrypt_pbkdf-1.1.2/ext/mri
+make DESTDIR\= sitearchdir\=./.gem.20261002-9608-5v2su sitelibdir\=./.gem.20261002-9608-5v2su clean
