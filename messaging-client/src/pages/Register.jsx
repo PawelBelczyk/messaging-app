@@ -1,217 +1,108 @@
- 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { apiFetch } from "../api/api";
 
-import UserList from "../components/UserList";
-import ConversationList from "../components/ConversationList";
-import MessageList from "../components/MessageList";
-import MessageInput from "../components/MessageInput";
+export default function Register() {
+  const navigate = useNavigate();
 
-import {
-  createConversation,
-  getConversations,
-} from "../api/conversations";
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [error, setError] = useState("");
 
-import {
-  getMessages,
-  sendMessage,
-} from "../api/messages";
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
 
-export default function Home() {
-  const [users, setUsers] = useState([]);
-  const [conversations, setConversations] = useState([]);
-  const [activeConversation, setActiveConversation] = useState(null);
-  const [messages, setMessages] = useState([]);
-
-  function handleLogout() {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  }
-
-  useEffect(() => {
-    apiFetch("/users")
-      .then(setUsers)
-      .catch(console.error);
-  }, []);
-
-  useEffect(() => {
-    apiFetch("/conversations")
-      .then(setConversations)
-      .catch(console.error);
-  }, []);
-
-  async function handleSelectUser(user) {
     try {
-      const existingConversation = conversations.find(
-        (conversation) =>
-          conversation.user &&
-          conversation.user.id === user.id
-      );
-
-      if (existingConversation) {
-        setActiveConversation(existingConversation);
-
-        const messages = await getMessages(
-          existingConversation.id
-        );
-
-        setMessages(messages);
-        return;
-      }
-
-      setActiveConversation({
-        id: null,
-        user: user,
-        isNew: true,
+      const data = await apiFetch("/register", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          password_confirmation: passwordConfirmation,
+        }),
       });
 
-      setMessages([]);
+      localStorage.setItem("token", data.token);
+      navigate("/");
     } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function handleSelectConversation(conversation) {
-    try {
-      setActiveConversation(conversation);
-
-      const messages = await getMessages(
-        conversation.id
-      );
-
-      setMessages(messages);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function handleSendMessage(content) {
-    if (!activeConversation) return;
-
-    try {
-      let conversation = activeConversation;
-
-      if (activeConversation.isNew) {
-        conversation = await createConversation(
-          activeConversation.user.id
-        );
-
-        setActiveConversation(conversation);
-      }
-
-      const message = await sendMessage(
-        conversation.id,
-        content
-      );
-
-      setMessages((current) => [
-        ...current,
-        message,
-      ]);
-
-      const updatedConversations =
-        await getConversations();
-
-      setConversations(updatedConversations);
-    } catch (error) {
-      console.error(error);
+      setError(error.message);
     }
   }
 
   return (
-    <div className="messaging-app">
-      <header className="app-header">
-        <div className="app-brand">
-          <div className="app-logo">M</div>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="login-logo">M</div>
 
-          <h1>Messaging App</h1>
+        <div className="auth-header">
+          <h1>Create account</h1>
         </div>
 
-        <div className="app-actions">
-          <a
-            className="profile-link"
-            href="/profile"
-          >
-            Profile
-          </a>
+        <p className="auth-subtitle">
+          Register to start messaging
+        </p>
 
-          <button
-            className="logout-button"
-            onClick={handleLogout}
-          >
-            Logout
+        {error && <p className="auth-error">{error}</p>}
+
+        <form onSubmit={handleSubmit} className="auth-form">
+          <label>
+            Username
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Your username"
+              required
+            />
+          </label>
+
+          <label>
+            Email
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Your password"
+              required
+            />
+          </label>
+
+          <label>
+            Confirm password
+            <input
+              type="password"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              placeholder="Repeat your password"
+              required
+            />
+          </label>
+
+          <button type="submit" className="auth-button">
+            Create account
           </button>
+        </form>
+
+        <div className="auth-register">
+          <span>Already have an account?</span>
+          <Link to="/login">Sign in</Link>
         </div>
-      </header>
-
-      <main className="messaging-layout">
-        <aside className="sidebar">
-          <div className="sidebar-section">
-            <h2>Conversations</h2>
-
-            <ConversationList
-              conversations={conversations}
-              onSelectConversation={
-                handleSelectConversation
-              }
-            />
-          </div>
-
-          <div className="sidebar-section">
-            <h2>Users</h2>
-
-            <UserList
-              users={users}
-              onSelectUser={handleSelectUser}
-            />
-          </div>
-        </aside>
-
-        <section className="chat">
-          {activeConversation ? (
-            <>
-              <div className="chat-header">
-                <div className="chat-user-avatar">
-                  {activeConversation.user?.username
-                    ?.charAt(0)
-                    .toUpperCase()}
-                </div>
-
-                <div>
-                  <h2>
-                    {activeConversation.user?.username ||
-                      `Conversation ${activeConversation.id}`}
-                  </h2>
-
-                  <span className="chat-status">
-                    Active conversation
-                  </span>
-                </div>
-              </div>
-
-              <div className="chat-messages">
-                <MessageList messages={messages} />
-              </div>
-
-              <MessageInput
-                onSend={handleSendMessage}
-              />
-            </>
-          ) : (
-            <div className="empty-chat">
-              <div className="empty-chat-icon">M</div>
-
-              <h2>Your messages</h2>
-
-              <p>
-                Select a conversation or choose a user
-                to start chatting.
-              </p>
-            </div>
-          )}
-        </section>
-      </main>
+      </div>
     </div>
   );
 }
-
